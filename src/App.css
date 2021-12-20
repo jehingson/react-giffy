@@ -13,8 +13,7 @@
   color: white;
 }
 
-button {
-  background: red;
-  color: white;
-  height: 50px;
+a {
+  color: #09f;
+  font-size: 32px;
 }
