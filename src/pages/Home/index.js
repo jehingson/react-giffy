@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from "wouter";
 import ListGif from '../../components/ListGif';
-import getGifs from '../../services/getGifs';
+import { useGifs } from '../../hooks/useGifs';
+//import getGifs from '../../services/getGifs';
 
 const POPULAR_GIFS = ['Matrix', 'Colombia', 'Chile', 'Venezuela']
 
 export default function Home() {
     const [keyword, setKeywords] = useState('')
     const [path, pushLocation] = useLocation()
-    const [gifs, setGifs] = useState([])
-    const [loading, setLoading] = useState(false)
+    //const [gifs, setGifs] = useState([])
+    //onst [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        setLoading(true)
-        getGifs({ keyword: 'rick' })
-            .then(gifs => {
-                setGifs(gifs)
-                setLoading(false)
-            })
-    }, [keyword])
+    const { loading, gifs } = useGifs()
+
+    // useEffect(() => {
+    //     setLoading(true)
+    //     getGifs({ keyword: 'rick' })
+    //         .then(gifs => {
+    //             setGifs(gifs)
+    //             setLoading(false)
+    //         })
+    // }, [keyword])
 
     const handleSubmit = e => {
         e.preventDefault()
