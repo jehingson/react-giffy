@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import getGifs from '../services/getGifs'
-import Gif from './Gif'
+import getGifs from '../../services/getGifs'
+import Gif from '../Gif'
 
 
-const ListGif = ({ params }) => {
-    const { keyword } = params
+const ListGif = ({ keyword }) => {
     const [gifs, setGifs] = useState([])
 
     const [loading, setLoading] = useState(false)
@@ -19,7 +18,6 @@ const ListGif = ({ params }) => {
     }, [keyword])
 
     if (loading) return <i> cargando...</i>
-
 
     return <>
         {gifs.map(({ id, title, url }) =>
