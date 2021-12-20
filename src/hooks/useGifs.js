@@ -9,9 +9,9 @@ export function useGifs({ keyword } = { keyword: null }) {
     useEffect(() => {
         setLoading(true)
         // recuperamos la keyword del localStorage
-        const keywordToUse = keyword || localStorage.getItem('keyword')
+        const keywordToUse = keyword || localStorage.getItem('keyword') || 'random'
 
-        getGifs({ keywordToUse })
+        getGifs({ keyword: keywordToUse })
             .then(gifs => {
                 setGifs(gifs)
                 setLoading(false)
