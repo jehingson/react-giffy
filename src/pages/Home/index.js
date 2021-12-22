@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import ListGif from '../../components/ListGif';
 import { useGifs } from '../../hooks/useGifs';
-//import getGifs from '../../services/getGifs';
-
-const POPULAR_GIFS = ['Matrix', 'Colombia', 'Chile', 'Venezuela']
+import TrendingSearches from '../../components/TrendingSearches';
 
 export default function Home() {
     const [keyword, setKeywords] = useState('')
     const [path, pushLocation] = useLocation()
-    //const [gifs, setGifs] = useState([])
-    //onst [loading, setLoading] = useState(false)
-
     const { loading, gifs } = useGifs()
-
-    // useEffect(() => {
-    //     setLoading(true)
-    //     getGifs({ keyword: 'rick' })
-    //         .then(gifs => {
-    //             setGifs(gifs)
-    //             setLoading(false)
-    //         })
-    // }, [keyword])
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -39,26 +25,23 @@ export default function Home() {
     return (
         <>
             <form onSubmit={handleSubmit}>
+                <button>Buscar</button>
                 <input
                     placeholder="Buscador de gifs..."
                     type="text"
                     value={keyword}
                     onChange={handleChange}
                 />
-                <button>Buscar</button>
             </form>
-            <h3 className="App-title">la última búsqueda</h3>
-            <ListGif gifs={gifs} />
-            <h3 className="App-title">los gifs más populares</h3>
-            <ul>
-                {POPULAR_GIFS.map((popularGif) => (
-                    <li key={popularGif}>
-                        <Link to={`/search/${popularGif}`}>
-                            Gifs de {popularGif}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+            <div className="App-main">
+                <div className="App-results">
+                    <h3 className="App-title">la última búsqueda</h3>
+                    <ListGif gifs={gifs} />
+                </div>
+                <div className="App-category">
+                    <TrendingSearches />
+                </div>
+            </div>
         </>
     )
 }

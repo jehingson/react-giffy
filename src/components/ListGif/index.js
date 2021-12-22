@@ -4,7 +4,6 @@ import './styles.css'
 
 
 const ListGif = ({ gifs }) => {
-
     return <div className="listGifs">
         {gifs.map(({ id, title, url }) =>
             <Gif
