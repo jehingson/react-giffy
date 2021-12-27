@@ -11,17 +11,16 @@ function TrendingSearches() {
             .then(setTrends)
     }, [])
 
-
     return <Category name="Tendencias" options={trends} />
 }
 
-// Lazy Trending
+// creacion de un Hooks
+function useNearScreen() {
+    const [isNearScreen, setShow] = useState(false)
+    const fromRef = useRef()
 
-export default function LazyTrending() {
-    const [show, setShow] = useState(false)
-    const elementRef = useRef()
-
-    useEffect(() => {
+    useEffect(function ({ distance = '100px' } = {}) {
+        let observer
         const onChange = (entries, observer) => {
             const el = entries[0]
             console.log('ell', el.isIntersecting)
@@ -30,16 +29,28 @@ export default function LazyTrending() {
                 observer.disconnect()
             }
         }
-        const observer = new IntersectionObserver(onChange, {
-            rootMargin: '100px'
+
+
+        // si el navegador no cuenta con intersection observer
+        Promise.resolve(
+            typeof IntersectionObserver !== 'undefined' ? IntersectionObserver : import('intersection-observer')
+        ).then(() => {
+            observer = new IntersectionObserver(onChange, {
+                rootMargin: distance
+            })
+            observer.observe(fromRef.current)
         })
 
-        observer.observe(elementRef.current)
-        return () => observer.disconnect()
+        return () => observer && observer.disconnect()
     }, [])
+    return { isNearScreen, fromRef }
+}
 
-    return <div ref={elementRef}>
-        {show ? <TrendingSearches /> : null}
+// Lazy Trending
+export default function LazyTrending() {
+    const { isNearScreen, fromRef } = useNearScreen({ distance: '200px' })
+
+    return <div ref={fromRef}>
+        {isNearScreen ? <TrendingSearches /> : null}
     </div>
-
 }
