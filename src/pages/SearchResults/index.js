@@ -6,8 +6,9 @@ import { useGifs } from 'hooks/useGifs'
 
 function SearchResults({ params }) {
     const { keyword } = params
-    const { loading, gifs } = useGifs({ keyword })
+    const { loading, gifs, setPage } = useGifs({ keyword })
 
+    const handleNextpage = () => setPage(prevPage => prevPage + 1)
 
     return <>
         {loading
@@ -17,6 +18,7 @@ function SearchResults({ params }) {
                 <ListGif gifs={gifs} />
             </>
         }
+        <button onClick={handleNextpage}>Get next page</button>
     </>
 }
 export default React.memo(SearchResults)
