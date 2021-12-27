@@ -3,7 +3,7 @@ import getTrendingSearchTerms from '../../services/getTrendingSearchTerms'
 import Category from '../Category'
 
 
-export default function TrendingSearches() {
+function TrendingSearches() {
     const [trends, setTrends] = useState([])
 
     useEffect(() => {
@@ -13,4 +13,30 @@ export default function TrendingSearches() {
 
 
     return <Category name="Tendencias" options={trends} />
+}
+
+// Lazy Trending
+
+export default function LazyTrending() {
+    const [show, setShow] = useState(false)
+
+    useEffect(() => {
+        const onChange = (entries) => {
+            const el = entries[0]
+            console.log('ell', el)
+            if (el.isIntersecting) {
+                setShow(true)
+            }
+        }
+        const observer = new IntersectionObserver(onChange, {
+            rootMargin: '100px'
+        })
+
+        observer.observe(document.getElementById('LazyTrending'))
+    }, [])
+
+    return <div id="LazyTrending">
+        {show ? <TrendingSearches /> : null}
+    </div>
+
 }
